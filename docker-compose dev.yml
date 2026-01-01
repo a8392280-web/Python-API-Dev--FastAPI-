@@ -1,0 +1,38 @@
+# to run: docker-compose -f "docker-compose dev.yml" up -d --build
+# this is for development environment
+
+
+version: "3"
+services:
+
+  api:
+    build: . 
+    ports:
+      - 8000:8000
+    depends_on:
+    - postgres
+  # envfile:
+  #  - .env
+    volumes:
+      - ./:/usr/src/app:ro
+    command: uvicorn app.api_with_db_ORM:app --host 0.0.0.0 --port 8000 --reload
+    environment:
+      - DATABASE_HOSTNAME=postgres
+      - DATABASE_PORT=5432
+      - DATABASE_PASSWORD=123321123321
+      - DATABASE_NAME=fastapi
+      - DATABASE_USERNAME=postgres
+      - SECRET_KEY=09d25e094faa6ca2556c818166b7a9563b93f7099f6f0f4caa6cf63b88e8d3e7
+      - ALGORITHM=HS256
+      - ACCESS_TOKEN_EXPIRE_MINUTES=30
+
+  postgres:
+    image: postgres:13
+    environment:
+      POSTGRES_PASSWORD: 123321123321
+      POSTGRES_DB: fastapi
+    volumes:
+      - postgres-db:/var/lib/postgresql/data
+volumes:
+  postgres-db: {}
+

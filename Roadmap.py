@@ -13,3 +13,8 @@
 # 6 : api_with_db_ORM
 
 # 7 : auth for authentication
+
+# 8 : deploying the api(heroku or any other platform)
+
+# 9 : dockerizing the app with dockerfile and docker-compose
+

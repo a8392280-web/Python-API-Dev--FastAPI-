@@ -1,0 +1,35 @@
+# to run: docker-compose -f "docker-compose prod.yml" up -d --build
+# this is for production environment
+
+version: "3"
+services:
+
+  api:
+    image: ahmedxfaisal/fast_api
+    ports:
+      - 80:8000
+    depends_on:
+    - postgres
+  # envfile:
+  #  - .env
+    # command: uvicorn app.api_with_db_ORM:app --host 0.0.0.0 --port 8000 
+    environment:
+      - DATABASE_HOSTNAME=${DATABASE_HOSTNAME}
+      - DATABASE_PORT=${DATABASE_PORT}
+      - DATABASE_PASSWORD=${DATABASE_PASSWORD}
+      - DATABASE_NAME=${DATABASE_NAME}
+      - DATABASE_USERNAME=${DATABASE_USERNAME}
+      - SECRET_KEY=${SECRET_KEY}
+      - ALGORITHM=${ALGORITHM}
+      - ACCESS_TOKEN_EXPIRE_MINUTES=${ACCESS_TOKEN_EXPIRE_MINUTES}
+
+  postgres:
+    image: postgres:13
+    environment:
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
+      POSTGRES_DB: ${DATABASE_NAME}
+    volumes:
+      - postgres-db:/var/lib/postgresql/data
+volumes:
+  postgres-db: {}
+

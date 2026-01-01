@@ -6,4 +6,4 @@ __pypackages__/
 .env
 venv/
 .vscode
-test
+.git
